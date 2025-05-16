@@ -15,6 +15,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   late VideoPlayerController _videoController;
   late Future<void> _initializeVideoPlayerFuture;
   bool _isVideoInitialized = false;
+  bool _showVideo = true;
 
   @override
   void initState() {
@@ -36,7 +37,20 @@ class _HomePageState extends ConsumerState<HomePage> {
     });
 
     // Fetch books when the page loads
-    Future.microtask(() => ref.read(booksProvider.notifier).fetchBooks());
+    Future.microtask(() async {
+      await ref.read(booksProvider.notifier).fetchBooks();
+      // After books are fetched, wait for video to finish if it's still playing
+      if (_videoController.value.duration > _videoController.value.position) {
+        await Future.delayed(
+          _videoController.value.duration - _videoController.value.position
+        );
+      }
+      if (mounted) {
+        setState(() {
+          _showVideo = false;
+        });
+      }
+    });
   }
 
   @override
@@ -65,26 +79,24 @@ class _HomePageState extends ConsumerState<HomePage> {
           //   child: const Text('pay page'),
           // ),
           Expanded(
-            child: books.isEmpty
-                ? Center(
-                    child: _isVideoInitialized
-                        ? AspectRatio(
-                            aspectRatio: _videoController.value.aspectRatio,
-                            child: VideoPlayer(_videoController),
-                          )
-                        : const CircularProgressIndicator(),
+            child: _showVideo && _isVideoInitialized
+                ? AspectRatio(
+                    aspectRatio: _videoController.value.aspectRatio,
+                    child: VideoPlayer(_videoController),
                   )
-                : ListView.builder(
-                    itemCount: books.length,
-                    itemBuilder: (context, index) {
-                      final book = books[index];
-                      return ListTile(
-                        title: Text(book.name),
-                        subtitle: Text(book.description),
-                        // Add more book details as needed
-                      );
-                    },
-                  ),
+                : books.isEmpty
+                    ? const Center(child: CircularProgressIndicator())
+                    : ListView.builder(
+                        itemCount: books.length,
+                        itemBuilder: (context, index) {
+                          final book = books[index];
+                          return ListTile(
+                            title: Text(book.name),
+                            subtitle: Text(book.description),
+                            // Add more book details as needed
+                          );
+                        },
+                      ),
           ),
         ],
       ),
