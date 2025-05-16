@@ -50,20 +50,20 @@ class _HomePageState extends ConsumerState<HomePage> {
     final books = ref.watch(booksProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Home'),
+      // ),
       body: Column(
         children: [
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const PayPage()),
-              );
-            },
-            child: const Text('pay page'),
-          ),
+          // TextButton(
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(builder: (context) => const PayPage()),
+          //     );
+          //   },
+          //   child: const Text('pay page'),
+          // ),
           Expanded(
             child: books.isEmpty
                 ? Center(
