@@ -15,6 +15,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   late VideoPlayerController _videoController;
   bool _isVideoInitialized = false;
   bool _showVideo = true;
+  double _videoOpacity = 1.0;
 
   @override
   void initState() {
@@ -31,6 +32,14 @@ class _HomePageState extends ConsumerState<HomePage> {
         
         // Listen for video completion
         _videoController.addListener(() {
+          // Start fading out when video is 0.5 seconds from ending
+          if (_videoController.value.duration - _videoController.value.position <= const Duration(milliseconds: 500)) {
+            setState(() {
+              _videoOpacity = 0.0;
+            });
+          }
+          
+          // Hide video after it's fully faded out
           if (_videoController.value.position >= _videoController.value.duration) {
             setState(() {
               _showVideo = false;
@@ -57,12 +66,17 @@ class _HomePageState extends ConsumerState<HomePage> {
     return Scaffold(
       body: _showVideo && _isVideoInitialized
           ? Center(
-              child: SizedBox(
-                width: size.width * 0.8,
-                height: size.height * 0.8,
-                child: AspectRatio(
-                  aspectRatio: _videoController.value.aspectRatio,
-                  child: VideoPlayer(_videoController),
+              child: AnimatedOpacity(
+                opacity: _videoOpacity,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeOut,
+                child: SizedBox(
+                  width: size.width * 0.8,
+                  height: size.height * 0.8,
+                  child: AspectRatio(
+                    aspectRatio: _videoController.value.aspectRatio,
+                    child: VideoPlayer(_videoController),
+                  ),
                 ),
               ),
             )
