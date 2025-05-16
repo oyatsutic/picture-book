@@ -33,7 +33,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         // Listen for video completion
         _videoController.addListener(() {
           // Start fading out when video is 0.5 seconds from ending
-          if (_videoController.value.duration - _videoController.value.position <= const Duration(milliseconds: 500)) {
+          if (_videoController.value.duration - _videoController.value.position <= const Duration(milliseconds: 1000)) {
             setState(() {
               _videoOpacity = 0.0;
             });
@@ -69,7 +69,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           ? Center(
               child: AnimatedOpacity(
                 opacity: _videoOpacity,
-                duration: const Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 1000),
                 curve: Curves.easeOut,
                 child: SizedBox(
                   width: size.width * 0.8,
