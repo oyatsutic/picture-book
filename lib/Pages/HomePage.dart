@@ -64,6 +64,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: _showVideo && _isVideoInitialized
           ? Center(
               child: AnimatedOpacity(
