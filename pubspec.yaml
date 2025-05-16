@@ -21,6 +21,7 @@ dependencies:
   webview_flutter_android: ^4.3.2
   webview_flutter_wkwebview: ^3.20.0
   path_provider: ^2.1.5
+  video_player: ^2.9.5
 
 dev_dependencies:
   flutter_test:
