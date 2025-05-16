@@ -52,13 +52,18 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final books = ref.watch(booksProvider);
+    final size = MediaQuery.of(context).size;
 
     return Scaffold(
       body: _showVideo && _isVideoInitialized
           ? Center(
-              child: AspectRatio(
-                aspectRatio: _videoController.value.aspectRatio,
-                child: VideoPlayer(_videoController),
+              child: SizedBox(
+                width: size.width * 0.8,
+                height: size.height * 0.8,
+                child: AspectRatio(
+                  aspectRatio: _videoController.value.aspectRatio,
+                  child: VideoPlayer(_videoController),
+                ),
               ),
             )
           : books.isEmpty
