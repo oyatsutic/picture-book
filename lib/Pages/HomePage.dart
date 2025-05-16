@@ -13,44 +13,34 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   late VideoPlayerController _videoController;
-  late Future<void> _initializeVideoPlayerFuture;
   bool _isVideoInitialized = false;
   bool _showVideo = true;
 
   @override
   void initState() {
     super.initState();
-    // Initialize video player
-    _videoController = VideoPlayerController.asset('assets/splashvideo.mp4');
     
-    // networkUrl(
-    //   Uri.parse(
-    //     'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-    //   ),
-    // );
-    _initializeVideoPlayerFuture = _videoController.initialize().then((_) {
-      setState(() {
-        _isVideoInitialized = true;
-      });
-      _videoController.play();
-      _videoController.setLooping(true);
-    });
-
-    // Fetch books when the page loads
-    Future.microtask(() async {
-      await ref.read(booksProvider.notifier).fetchBooks();
-      // After books are fetched, wait for video to finish if it's still playing
-      if (_videoController.value.duration > _videoController.value.position) {
-        await Future.delayed(
-          _videoController.value.duration - _videoController.value.position
-        );
-      }
-      if (mounted) {
+    // Initialize video player
+    _videoController = VideoPlayerController.asset('assets/splashvideo.mp4')
+      ..initialize().then((_) {
         setState(() {
-          _showVideo = false;
+          _isVideoInitialized = true;
         });
-      }
-    });
+        // Start playing as soon as initialized
+        _videoController.play();
+        
+        // Listen for video completion
+        _videoController.addListener(() {
+          if (_videoController.value.position >= _videoController.value.duration) {
+            setState(() {
+              _showVideo = false;
+            });
+          }
+        });
+      });
+
+    // Fetch books in parallel
+    Future.microtask(() => ref.read(booksProvider.notifier).fetchBooks());
   }
 
   @override
@@ -64,42 +54,25 @@ class _HomePageState extends ConsumerState<HomePage> {
     final books = ref.watch(booksProvider);
 
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Home'),
-      // ),
-      body: Column(
-        children: [
-          // TextButton(
-          //   onPressed: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => const PayPage()),
-          //     );
-          //   },
-          //   child: const Text('pay page'),
-          // ),
-          Expanded(
-            child: _showVideo && _isVideoInitialized
-                ? AspectRatio(
-                    aspectRatio: _videoController.value.aspectRatio,
-                    child: VideoPlayer(_videoController),
-                  )
-                : books.isEmpty
-                    ? const Center(child: CircularProgressIndicator())
-                    : ListView.builder(
-                        itemCount: books.length,
-                        itemBuilder: (context, index) {
-                          final book = books[index];
-                          return ListTile(
-                            title: Text(book.name),
-                            subtitle: Text(book.description),
-                            // Add more book details as needed
-                          );
-                        },
-                      ),
-          ),
-        ],
-      ),
+      body: _showVideo && _isVideoInitialized
+          ? Center(
+              child: AspectRatio(
+                aspectRatio: _videoController.value.aspectRatio,
+                child: VideoPlayer(_videoController),
+              ),
+            )
+          : books.isEmpty
+              ? const Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                  itemCount: books.length,
+                  itemBuilder: (context, index) {
+                    final book = books[index];
+                    return ListTile(
+                      title: Text(book.name),
+                      subtitle: Text(book.description),
+                    );
+                  },
+                ),
     );
   }
 }
