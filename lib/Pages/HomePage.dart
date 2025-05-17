@@ -117,7 +117,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     Future.microtask(() async {
       await ref.read(booksProvider.notifier).fetchBooks();
       final books = ref.read(booksProvider);
-      final userEmail = /* get from your user provider or auth */;
+      final userEmail = '';
       await downloadBookAssets(books, userEmail);
     });
   }
