@@ -109,8 +109,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                   duration: const Duration(milliseconds: 1000),
                   curve: Curves.easeOut,
                   child: SizedBox(
-                    width: size.width * 0.8,
-                    height: size.height * 0.8,
+                    width: size.width * 0.6,
+                    height: size.height * 0.6,
                     child: AspectRatio(
                       aspectRatio: _videoController.value.aspectRatio,
                       child: VideoPlayer(_videoController),
@@ -135,20 +135,35 @@ class _HomePageState extends ConsumerState<HomePage> {
                       child: Image.asset('assets/images/background.jpg'))
                   : const Center()),
           // ListView or other content
-          Positioned.fill(
+          Positioned(
+              // top: 0,
+              // left: 0,
+              // right: 0,
               child: _showPDF
                   ? books.isEmpty
                       ? const Center()
-                      : AnimatedOpacity(
-                          opacity: _backgroundOpacity,
-                          duration: const Duration(milliseconds: 1000),
-                          child: ListView.builder(
-                            itemCount: books.length,
-                            itemBuilder: (context, index) {
-                              final book = books[index];
-                              return BookTitle(book: book);
-                            },
-                          ))
+                      : Center(
+                          child: AnimatedOpacity(
+                              opacity: _backgroundOpacity,
+                              duration: const Duration(milliseconds: 1000),
+                              child: SizedBox(
+                                  width: size.width * 0.8,
+                                  child: GridView.builder(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 30, 0, 30),
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisSpacing: 10,
+                                      mainAxisSpacing: 0,
+                                      crossAxisCount: 3,
+                                      childAspectRatio: 0.9, // adjust as needed
+                                    ),
+                                    itemCount: 10,
+                                    itemBuilder: (context, index) {
+                                      // final book = books[index];
+                                      return BookTitle(book: _book);
+                                    },
+                                  ))))
                   : const Center()),
         ],
       ),
