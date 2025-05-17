@@ -6,7 +6,7 @@ class Book {
   final String animationUrl;
   final double price;
   final String publish;
-  final List<String> shared;
+  final List<String> purchased;
   final String modifiedAt;
   final double size;
   final PdfFile pdfFile;
@@ -20,7 +20,7 @@ class Book {
     required this.animationUrl,
     required this.price,
     required this.publish,
-    required this.shared,
+    required this.purchased,
     required this.modifiedAt,
     required this.size,
     required this.pdfFile,
@@ -36,7 +36,7 @@ class Book {
       animationUrl: json['animationUrl'] ?? '',
       price: (json['price'] ?? 0).toDouble(),
       publish: json['publish'] ?? '',
-      shared: List<String>.from(json['shared'] ?? []),
+      purchased: List<String>.from(json['purchased'] ?? []),
       modifiedAt: json['modifiedAt'] ?? '',
       size: (json['size'] ?? 0).toDouble(),
       pdfFile: PdfFile.fromJson(json['pdfFile'] ?? {}),

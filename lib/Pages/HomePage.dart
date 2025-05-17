@@ -36,7 +36,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       animationUrl: '',
       price: 123,
       publish: 'publish',
-      shared: ['shared'],
+      purchased: ['purchased'],
       modifiedAt: 'modifiedAt',
       size: 11,
       pdfFile: new PdfFile(name: 'name', size: 12, url: 'url'),
@@ -54,7 +54,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   Future<void> downloadBookAssets(List<Book> books, String userEmail) async {
     for (final book in books) {
       final isFree = book.price == 0;
-      final isPurchased = book.shared.contains(userEmail);
+      final isPurchased = book.purchased.contains(userEmail);
       if (isFree || isPurchased) {
         // Download PDF
         await downloadFile(book.pdfFile.url, '${book.id}.pdf');
