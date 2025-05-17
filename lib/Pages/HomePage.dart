@@ -24,7 +24,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       id: '',
       name: '',
       description: '',
-      imageUrl: '',
+      animationThumbUrl: '',
       animationUrl: '',
       price: 123,
       publish: 'publish',

@@ -2,7 +2,7 @@ class Book {
   final String id;
   final String name;
   final String description;
-  final String imageUrl;
+  final String animationThumbUrl;
   final String animationUrl;
   final double price;
   final String publish;
@@ -16,7 +16,7 @@ class Book {
     required this.id,
     required this.name,
     required this.description,
-    required this.imageUrl,
+    required this.animationThumbUrl,
     required this.animationUrl,
     required this.price,
     required this.publish,
@@ -32,7 +32,7 @@ class Book {
       id: json['_id'] ?? '',
       name: json['name'] ?? '',
       description: json['description'] ?? '',
-      imageUrl: json['imageUrl'] ?? '',
+      animationThumbUrl: json['animationThumbUrl'] ?? '',
       animationUrl: json['animationUrl'] ?? '',
       price: (json['price'] ?? 0).toDouble(),
       publish: json['publish'] ?? '',
