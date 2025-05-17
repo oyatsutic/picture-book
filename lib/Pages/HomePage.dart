@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:picturebook/Pages/Pay/PayPage.dart';
 import 'package:picturebook/Providers/book_provider.dart';
+import 'package:picturebook/Widgets/BookTitle.dart';
 import 'package:video_player/video_player.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -87,10 +88,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                   itemCount: books.length,
                   itemBuilder: (context, index) {
                     final book = books[index];
-                    return ListTile(
-                      title: Text(book.name),
-                      subtitle: Text(book.description),
-                    );
+                    // return ListTile(
+                    //   title: Text(book.name),
+                    //   subtitle: Text(book.description),
+                    // );
+                    return BookTitle(book: book);
                   },
                 ),
     );

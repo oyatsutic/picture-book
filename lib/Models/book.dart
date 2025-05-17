@@ -2,6 +2,8 @@ class Book {
   final String id;
   final String name;
   final String description;
+  final String imageUrl;
+  final String animationUrl;
   final double price;
   final String publish;
   final List<String> shared;
@@ -14,6 +16,8 @@ class Book {
     required this.id,
     required this.name,
     required this.description,
+    required this.imageUrl,
+    required this.animationUrl,
     required this.price,
     required this.publish,
     required this.shared,
@@ -28,6 +32,8 @@ class Book {
       id: json['_id'] ?? '',
       name: json['name'] ?? '',
       description: json['description'] ?? '',
+      imageUrl: json['imageUrl'] ?? '',
+      animationUrl: json['animationUrl'] ?? '',
       price: (json['price'] ?? 0).toDouble(),
       publish: json['publish'] ?? '',
       shared: List<String>.from(json['shared'] ?? []),
