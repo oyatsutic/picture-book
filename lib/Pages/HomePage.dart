@@ -99,10 +99,10 @@ class _HomePageState extends ConsumerState<HomePage> {
           // Video layer
           if (_showVideo && _isVideoInitialized)
             Positioned(
-              left: 0,
-              top: 0,
-              bottom: 0,
-              right: 0,
+              // left: 0,
+              // top: 0,
+              // bottom: 0,
+              // right: 0,
               child: Center(
                 child: AnimatedOpacity(
                   opacity: _videoOpacity,
@@ -154,7 +154,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     gridDelegate:
                                         const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisSpacing: 10,
-                                      mainAxisSpacing: 0,
+                                      mainAxisSpacing: 20,
                                       crossAxisCount: 3,
                                       childAspectRatio: 0.9, // adjust as needed
                                     ),
