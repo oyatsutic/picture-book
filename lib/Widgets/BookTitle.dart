@@ -14,7 +14,6 @@ class _BookTitleState extends State<BookTitle> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => PdfScreen(
                     book: widget.book,

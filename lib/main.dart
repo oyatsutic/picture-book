@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:picturebook/Pages/HomePage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future<void> main() async {
+  const env = String.fromEnvironment('ENV', defaultValue: 'dev');
+  await dotenv.load(fileName: '.env.$env');
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,

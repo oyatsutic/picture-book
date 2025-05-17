@@ -22,6 +22,7 @@ dependencies:
   webview_flutter_wkwebview: ^3.20.0
   path_provider: ^2.1.5
   video_player: ^2.9.5
+  flutter_dotenv: ^5.2.1
 
 dev_dependencies:
   flutter_test:
@@ -39,3 +40,5 @@ flutter:
     - assets/splashvideo.mp4
     - assets/images/bookpage.jpg
     - assets/images/background.jpg
+    - .env.dev
+    - .env.prod

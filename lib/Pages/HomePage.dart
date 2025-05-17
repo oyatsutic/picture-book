@@ -3,8 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:picturebook/Models/book.dart';
 import 'package:picturebook/Pages/Pay/PayPage.dart';
 import 'package:picturebook/Providers/book_provider.dart';
+import 'package:picturebook/Services/config.dart';
 import 'package:picturebook/Widgets/BookTitle.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+
+final apiUrl = dotenv.env['API_URL'];
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -20,6 +27,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   bool _showPDF = false;
   double _videoOpacity = 1.0;
   double _backgroundOpacity = 0.0;
+
   Book _book = new Book(
       id: '',
       name: '',
@@ -33,10 +41,38 @@ class _HomePageState extends ConsumerState<HomePage> {
       size: 11,
       pdfFile: new PdfFile(name: 'name', size: 12, url: 'url'),
       audioFiles: []);
+
+  Future<void> downloadFile(String url, String filename) async {
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final dir = await getApplicationDocumentsDirectory();
+      final file = File('${dir.path}/$filename');
+      await file.writeAsBytes(response.bodyBytes);
+    }
+  }
+
+  Future<void> downloadBookAssets(List<Book> books, String userEmail) async {
+    for (final book in books) {
+      final isFree = book.price == 0;
+      final isPurchased = book.shared.contains(userEmail);
+      if (isFree || isPurchased) {
+        // Download PDF
+        await downloadFile(book.pdfFile.url, '${book.id}.pdf');
+        // Download animation
+        await downloadFile(book.animationUrl, '${book.id}_animation.mp4');
+        // Download audio files
+        for (final audio in book.audioFiles) {
+          await downloadFile(audio.url, '${book.id}_${audio.name}.mp3');
+        }
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
 
+    console([apiUrl]);
     // Initialize video player
     _videoController = VideoPlayerController.asset('assets/splashvideo.mp4')
       ..initialize().then((_) {
@@ -78,7 +114,12 @@ class _HomePageState extends ConsumerState<HomePage> {
       });
 
     // Fetch books in parallel
-    Future.microtask(() => ref.read(booksProvider.notifier).fetchBooks());
+    Future.microtask(() async {
+      await ref.read(booksProvider.notifier).fetchBooks();
+      final books = ref.read(booksProvider);
+      final userEmail = /* get from your user provider or auth */;
+      await downloadBookAssets(books, userEmail);
+    });
   }
 
   @override
