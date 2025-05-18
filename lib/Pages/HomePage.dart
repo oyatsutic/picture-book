@@ -36,7 +36,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       animationUrl: '',
       price: 123,
       publish: 'publish',
-      shared: ['shared'],
+      purchased: ['purchased'],
       modifiedAt: 'modifiedAt',
       size: 11,
       pdfFile: new PdfFile(name: 'name', size: 12, url: 'url'),
@@ -49,12 +49,12 @@ class _HomePageState extends ConsumerState<HomePage> {
       final file = File('${dir.path}/$filename');
       await file.writeAsBytes(response.bodyBytes);
     }
-  }
+  } 
 
   Future<void> downloadBookAssets(List<Book> books, String userEmail) async {
     for (final book in books) {
       final isFree = book.price == 0;
-      final isPurchased = book.shared.contains(userEmail);
+      final isPurchased = book.purchased.contains(userEmail);
       if (isFree || isPurchased) {
         // Download PDF
         await downloadFile(book.pdfFile.url, '${book.id}.pdf');
@@ -72,7 +72,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   void initState() {
     super.initState();
 
-    console([apiUrl]);
     // Initialize video player
     _videoController = VideoPlayerController.asset('assets/splashvideo.mp4')
       ..initialize().then((_) {
@@ -201,8 +200,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     ),
                                     itemCount: 10,
                                     itemBuilder: (context, index) {
-                                      // final book = books[index];
-                                      return BookTitle(book: _book);
+                                      final book = books[index];
+                                      return BookTitle(book: book);
                                     },
                                   ))))
                   : const Center()),
