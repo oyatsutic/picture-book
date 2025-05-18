@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:picturebook/Models/book.dart';
-import 'package:picturebook/Pages/Pay/PayPage.dart';
 import 'package:picturebook/Providers/book_provider.dart';
 import 'package:picturebook/Services/config.dart';
 import 'package:picturebook/Widgets/BookTitle.dart';
@@ -28,7 +27,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   double _videoOpacity = 1.0;
   double _backgroundOpacity = 0.0;
 
-  Book _book = new Book(
+ final Book _book =  Book(
       id: '',
       name: '',
       description: '',
