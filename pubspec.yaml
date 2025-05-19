@@ -23,7 +23,12 @@ dependencies:
   path_provider: ^2.1.5
   video_player: ^2.9.5
   flutter_dotenv: ^5.2.1
-  pdfx: ^2.9.1
+  pdfx: 
+    git:
+      url: 'https://github.com/ScerIO/packages.flutter' 
+      ref: '4be9de9ffed5398fd7d5f44bbb07dcd3d3f1711b'  
+      path: packages/pdfx
+
   # syncfusion_flutter_pdfviewer: ^29.1.38
 
 dev_dependencies:
