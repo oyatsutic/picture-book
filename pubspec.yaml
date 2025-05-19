@@ -23,7 +23,8 @@ dependencies:
   path_provider: ^2.1.5
   video_player: ^2.9.5
   flutter_dotenv: ^5.2.1
-  syncfusion_flutter_pdfviewer: ^29.1.38
+  pdfx: ^2.9.1
+  # syncfusion_flutter_pdfviewer: ^29.1.38
 
 dev_dependencies:
   flutter_test:
