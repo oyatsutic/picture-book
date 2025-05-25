@@ -15,6 +15,7 @@ class BooksNotifier extends StateNotifier<List<Book>> {
   Future<void> fetchBooks() async {
     try {
       final response = await Api().getBooks();
+      console(['sfasfs']);
 
       if (response.isEmpty) {
         state = [];
@@ -24,9 +25,11 @@ class BooksNotifier extends StateNotifier<List<Book>> {
 
       final Map<String, dynamic> jsonData = json.decode(response);
       final List<dynamic> products = jsonResponse['products'] ?? [];
-      console([products]);
       final List<Book> books =
           products.map((json) => Book.fromJson(json)).toList();
+      console([books]);
+      // Sort books so that free books (price = 0) appear first
+      books.sort((a, b) => a.price.compareTo(b.price));
 
       state = books;
     } catch (e) {
