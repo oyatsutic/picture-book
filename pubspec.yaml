@@ -47,10 +47,10 @@ flutter:
     - assets/splashvideo.mp4
     - assets/images/bookpage.jpg
     - assets/images/background.jpg
-    - assets/images/read_button.jpg
-    - assets/images/listen_button.jpg
-    - assets/images/record_button.jpg
-    - assets/images/home_button.jpg
+    - assets/images/read_button.png
+    - assets/images/listen_button.png
+    - assets/images/record_button.png
+    - assets/images/home_button.png
     - .env.dev
     - .env.prod
     - assets/books/pdf.pdf

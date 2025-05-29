@@ -6,7 +6,25 @@ import 'package:picturebook/Providers/book_provider.dart';
 import 'package:picturebook/Models/book.dart';
 
 class Download {
-  Future<void> downloadFile(String url, String filename) async {
+  Future<bool> isDownloaded(String filename) async {
+    try {
+      final dir = await getApplicationDocumentsDirectory();
+      final file = File('${dir.path}/$filename');
+
+      // Check if file exists and has content
+      if (await file.exists()) {
+        final fileSize = await file.length();
+        return fileSize > 0; // Return true only if file exists and has content
+      }
+      return false;
+    } catch (e) {
+      developer.log('Error checking if file exists: $e');
+      return false;
+    }
+  }
+
+  Future<void> downloadFile(String url, String filename,
+      {Function(double)? onProgress}) async {
     try {
       final dir = await getApplicationDocumentsDirectory();
       final file = File('${dir.path}/$filename');
@@ -18,11 +36,32 @@ class Download {
       }
 
       developer.log('Starting download from: $url');
-      final response = await http.get(Uri.parse(url));
+      final request = http.Request('GET', Uri.parse(url));
+      final response = await request.send();
 
       if (response.statusCode == 200) {
-        await file.writeAsBytes(response.bodyBytes);
-        developer.log('File downloaded successfully to: ${file.path}');
+        final totalBytes = response.contentLength ?? 0;
+        int receivedBytes = 0;
+
+        final sink = file.openWrite();
+        await response.stream.listen(
+          (chunk) {
+            sink.add(chunk);
+            receivedBytes += chunk.length;
+            if (totalBytes > 0 && onProgress != null) {
+              final progress = receivedBytes / totalBytes;
+              onProgress(progress);
+            }
+          },
+          onDone: () async {
+            await sink.close();
+            developer.log('File downloaded successfully to: ${file.path}');
+          },
+          onError: (error) {
+            sink.close();
+            throw Exception('Error downloading file: $error');
+          },
+        ).asFuture();
       } else {
         developer.log(
             'Failed to download file. Status code: ${response.statusCode}');
@@ -70,6 +109,20 @@ class Download {
     } catch (e) {
       developer.log('Error in downloadBookAssets: $e');
       throw Exception('Error downloading book assets: $e');
+    }
+  }
+
+  Future<void> downloadBook(Book book, String userEmail,
+      {Function(double)? onProgress}) async {
+    try {
+      // Download PDF
+      if (book.pdfFile.url.isNotEmpty) {
+        await downloadFile(book.pdfFile.url, '${book.id}.pdf',
+            onProgress: onProgress);
+      }
+    } catch (e) {
+      developer.log('Error in downloadBook: $e');
+      throw Exception('Error downloading book: $e');
     }
   }
 }

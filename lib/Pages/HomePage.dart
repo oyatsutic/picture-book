@@ -92,7 +92,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       await ref.read(booksProvider.notifier).fetchBooks();
       final books = ref.read(booksProvider);
       final userEmail = '';
-      await Download().downloadBookAssets(books, userEmail);
+      // await Download().downloadBookAssets(books, userEmail);
     });
   }
 

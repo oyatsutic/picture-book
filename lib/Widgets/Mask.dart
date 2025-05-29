@@ -12,7 +12,7 @@ class Mask extends StatelessWidget {
         width: size.width,
         height: size.height,
         child: Opacity(
-          opacity: 0.6,
+          opacity: 0.4,
           child: Container(
             color: Colors.black,
           ),

@@ -23,6 +23,7 @@ class BookScreen extends ConsumerStatefulWidget {
 class _BookScreenState extends ConsumerState<BookScreen> {
   String? _localPdfPath;
   bool _loading = true;
+  bool _showButtons = false;
   late PdfController pdfController;
   late PdfControllerPinch pdfControllerPinch;
   // late VideoPlayerController _videoController;
@@ -36,6 +37,15 @@ class _BookScreenState extends ConsumerState<BookScreen> {
   void initState() {
     super.initState();
     _loadPdf();
+
+    // Start showing buttons immediately with animation
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (mounted) {
+        setState(() {
+          _showButtons = true;
+        });
+      }
+    });
 
     //   // Initialize video player
     //   _videoController = VideoPlayerController.asset('assets/splashvideo.mp4')
@@ -118,6 +128,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     if (_loading) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
@@ -142,54 +153,95 @@ class _BookScreenState extends ConsumerState<BookScreen> {
       );
     }
 
-    return
-        //  PopScope(
-        //     canPop: false,
-        //     onPopInvoked: (bool didPop) {
-        //       if (!didPop) {}
-        //     },
-        //     child:
-
-        Scaffold(
-            // appBar: AppBar(
-            //   title: const Text('PDF Viewer'),
-            // ),
-            body: Stack(
-      children: [
-        PdfViewPinch(
-          controller: pdfControllerPinch,
-        ),
-        const Mask(),
-        Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              MaterialButton(
-                onPressed: () {},
-                child: MaskButton(button_name: 'read_button'),
+    return PopScope(
+        canPop: false,
+        onPopInvoked: (bool didPop) {
+          if (!didPop) {}
+        },
+        child: SafeArea(
+            child: Scaffold(
+                // appBar: AppBar(
+                //   title: const Text('PDF Viewer'),
+                // ),
+                body: Stack(
+          children: [
+            PdfViewPinch(
+              controller: pdfControllerPinch,
+            ),
+            const Mask(),
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeOut,
+              top: _showButtons ? 10 : -100,
+              left: 20,
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _showButtons = false;
+                  });
+                  // Wait for animation to complete before navigating back
+                  Future.delayed(const Duration(milliseconds: 500), () {
+                    if (mounted) {
+                      Navigator.pop(context);
+                    }
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.4),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: const Offset(1.5, 2),
+                      ),
+                    ],
+                  ),
+                  child: Image.asset('assets/images/home_button.png',
+                      width: 45, height: 45),
+                ),
               ),
-              MaterialButton(
-                onPressed: () {},
-                child: MaskButton(button_name: 'listen_button'),
+            ),
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 700),
+              curve: Curves.easeOut,
+              bottom: _showButtons ? size.height * 0.5 - 50 : -100,
+              left: 0,
+              right: 0,
+              child: AnimatedOpacity(
+                opacity: _showButtons ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 1000),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    MaterialButton(
+                      onPressed: () {},
+                      child: MaskButton(button_name: 'read_button'),
+                    ),
+                    MaterialButton(
+                      onPressed: () {},
+                      child: MaskButton(button_name: 'listen_button'),
+                    ),
+                    MaterialButton(
+                      onPressed: () {},
+                      child: MaskButton(button_name: 'record_button'),
+                    ),
+                  ],
+                ),
               ),
-              MaterialButton(
-                onPressed: () {},
-                child: MaskButton(button_name: 'record_button'),
-              ),
-            ],
-          ),
+            )
+          ],
         )
-      ],
-    )
 
-            // PdfView(
-            //   controller: pdfController,
-            //   onDocumentLoaded: (document) {
-            //     console(['Document loaded: ${document.pagesCount} pages']);
-            //   },
-            // ),
-            // )
+                // PdfView(
+                //   controller: pdfController,
+                //   onDocumentLoaded: (document) {
+                //     console(['Document loaded: ${document.pagesCount} pages']);
+                //   },
+                // ),
+                // )
 
-            );
+                )));
   }
 }
