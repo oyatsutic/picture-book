@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:picturebook/Pages/HomePage.dart';
+import 'package:picturebook/Pages/AnimationScreen.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/rendering.dart';
 
 Future<void> main() async {
   const env = String.fromEnvironment('ENV', defaultValue: 'dev');
@@ -12,6 +13,8 @@ Future<void> main() async {
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
   ]);
+  // debugPaintSizeEnabled = true;
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -27,7 +30,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const AnimationScreen(),
     );
   }
 }

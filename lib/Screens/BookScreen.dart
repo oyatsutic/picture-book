@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +9,9 @@ import 'package:path/path.dart' as path;
 // import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'dart:io';
 import 'package:pdfx/pdfx.dart';
+import 'package:picturebook/Pages/Book/ListenPage.dart';
+import 'package:picturebook/Pages/Book/ReadPage.dart';
+import 'package:picturebook/Pages/Book/RecordPage.dart';
 import 'package:picturebook/Services/config.dart';
 import 'package:picturebook/Widgets/Mask.dart';
 import 'package:picturebook/Widgets/MaskButton.dart';
@@ -32,7 +36,7 @@ class _BookScreenState extends ConsumerState<BookScreen> {
   // bool _showPDF = false;
   // double _videoOpacity = 1.0;
   // double _backgroundOpacity = 0.0;
-
+  String currentPage = '';
   @override
   void initState() {
     super.initState();
@@ -46,46 +50,6 @@ class _BookScreenState extends ConsumerState<BookScreen> {
         });
       }
     });
-
-    //   // Initialize video player
-    //   _videoController = VideoPlayerController.asset('assets/splashvideo.mp4')
-    //     ..initialize().then((_) {
-    //       setState(() {
-    //         _isVideoInitialized = true;
-    //       });
-    //       // Start playing as soon as initialized
-    //       _videoController.play();
-
-    //       // Listen for video completion
-    //       _videoController.addListener(() {
-    //         // Start fading out when video is 0.5 seconds from ending
-    //         if (_videoController.value.duration -
-    //                 _videoController.value.position <=
-    //             const Duration(milliseconds: 1000)) {
-    //           setState(() {
-    //             _videoOpacity = 0.0;
-    //             _backgroundOpacity = 1.0;
-    //           });
-    //         }
-
-    //         // Hide video after it's fully faded out
-    //         if (_videoController.value.position >=
-    //             _videoController.value.duration) {
-    //           setState(() {
-    //             _showVideo = false;
-    //           });
-    //         }
-    //         // show pdf after it's fully faded out
-
-    //         if (_videoController.value.duration -
-    //                 _videoController.value.position <=
-    //             const Duration(milliseconds: 2000)) {
-    //           setState(() {
-    //             _showPDF = true;
-    //           });
-    //         }
-    //       });
-    //     });
   }
 
   Future<void> _loadPdf() async {
@@ -160,15 +124,19 @@ class _BookScreenState extends ConsumerState<BookScreen> {
         },
         child: SafeArea(
             child: Scaffold(
-                // appBar: AppBar(
-                //   title: const Text('PDF Viewer'),
-                // ),
                 body: Stack(
           children: [
             PdfViewPinch(
               controller: pdfControllerPinch,
             ),
-            const Mask(),
+            currentPage == 'readpage'
+                ? Readpage(book: widget.book)
+                : currentPage == 'recordpage'
+                    ? Recordpage(book: widget.book)
+                    : currentPage == 'listenpage'
+                        ? Listenpage(book: widget.book)
+                        : Container(),
+            currentPage == '' ? const Mask() : Container(),
             AnimatedPositioned(
               duration: const Duration(milliseconds: 500),
               curve: Curves.easeOut,
@@ -179,28 +147,14 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                   setState(() {
                     _showButtons = false;
                   });
-                  // Wait for animation to complete before navigating back
                   Future.delayed(const Duration(milliseconds: 500), () {
                     if (mounted) {
                       Navigator.pop(context);
                     }
                   });
                 },
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.4),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: const Offset(1.5, 2),
-                      ),
-                    ],
-                  ),
-                  child: Image.asset('assets/images/home_button.png',
-                      width: 45, height: 45),
-                ),
+                child: Image.asset('assets/images/home_button_blue.png',
+                    width: 60, height: 60),
               ),
             ),
             AnimatedPositioned(
@@ -215,33 +169,49 @@ class _BookScreenState extends ConsumerState<BookScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    MaterialButton(
-                      onPressed: () {},
-                      child: MaskButton(button_name: 'read_button'),
+                    CupertinoButton(
+                      onPressed: () {
+                        setState(() {
+                          _showButtons = false;
+                          currentPage = 'readpage';
+                        });
+                        Future.delayed(const Duration(milliseconds: 500), () {
+                          if (mounted) {}
+                        });
+                      },
+                      child: const MaskButtonWidget(button_name: 'read_button'),
                     ),
-                    MaterialButton(
-                      onPressed: () {},
-                      child: MaskButton(button_name: 'listen_button'),
+                    CupertinoButton(
+                      onPressed: () {
+                        setState(() {
+                          _showButtons = false;
+                          currentPage = 'listenpage';
+                        });
+                        Future.delayed(const Duration(milliseconds: 500), () {
+                          if (mounted) {}
+                        });
+                      },
+                      child:
+                          const MaskButtonWidget(button_name: 'listen_button'),
                     ),
-                    MaterialButton(
-                      onPressed: () {},
-                      child: MaskButton(button_name: 'record_button'),
+                    CupertinoButton(
+                      onPressed: () {
+                        setState(() {
+                          _showButtons = false;
+                          currentPage = 'recordpage';
+                        });
+                        Future.delayed(const Duration(milliseconds: 500), () {
+                          if (mounted) {}
+                        });
+                      },
+                      child:
+                          const MaskButtonWidget(button_name: 'record_button'),
                     ),
                   ],
                 ),
               ),
             )
           ],
-        )
-
-                // PdfView(
-                //   controller: pdfController,
-                //   onDocumentLoaded: (document) {
-                //     console(['Document loaded: ${document.pagesCount} pages']);
-                //   },
-                // ),
-                // )
-
-                )));
+        ))));
   }
 }

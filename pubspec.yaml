@@ -28,6 +28,7 @@ dependencies:
       url: 'https://github.com/ScerIO/packages.flutter' 
       ref: '4be9de9ffed5398fd7d5f44bbb07dcd3d3f1711b'  
       path: packages/pdfx
+  flutter_cached_pdfview: ^0.4.3
 
   # syncfusion_flutter_pdfviewer: ^29.1.38
 
@@ -50,7 +51,14 @@ flutter:
     - assets/images/read_button.png
     - assets/images/listen_button.png
     - assets/images/record_button.png
-    - assets/images/home_button.png
+    - assets/images/recording_button.png
+    - assets/images/home_button_green.png
+    - assets/images/home_button_blue.png
+    - assets/images/previous_button.png
+    - assets/images/next_button.png
+    - assets/images/button_box.png
+    - assets/images/volume_lable.png
+    - assets/images/play_button.png
     - .env.dev
     - .env.prod
     - assets/books/pdf.pdf

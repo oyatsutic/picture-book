@@ -144,30 +144,42 @@ class _BookTitleState extends State<BookTitle> {
                 child: Container(
                   decoration: const BoxDecoration(color: Colors.black),
                   child: Center(
-                    child: _isDownloading
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircularProgressIndicator(
-                                value: _downloadProgress,
-                                color: Colors.white,
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                '${(_downloadProgress * 100).toInt()}%',
-                                style: const TextStyle(
+                      child: _isDownloading
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CircularProgressIndicator(
+                                  value: _downloadProgress,
                                   color: Colors.white,
-                                  fontSize: 16,
                                 ),
-                              ),
-                            ],
-                          )
-                        : const Icon(
-                            Icons.download,
-                            color: Colors.white,
-                            size: 32,
-                          ),
-                  ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  '${(_downloadProgress * 100).toInt()}%',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.download,
+                                  color: Colors.white,
+                                  size: 32,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  '${(widget.book.size).ceil()} MB',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                )
+                              ],
+                            )),
                 )),
         ],
       ),
