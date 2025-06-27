@@ -6,7 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/rendering.dart';
 
 Future<void> main() async {
-  const env = String.fromEnvironment('ENV', defaultValue: 'dev');
+  const env = String.fromEnvironment('ENV', defaultValue: 'prod');
   await dotenv.load(fileName: '.env.$env');
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
