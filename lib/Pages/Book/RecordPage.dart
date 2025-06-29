@@ -869,7 +869,7 @@ class _RecordpageState extends ConsumerState<Recordpage>
                                   },
                                   child: Image.asset(
                                     'assets/images/volume_button.png',
-                                    width: size.width * 0.15 / 2 - 5,
+                                    width: 50,
                                   )))
                           : Container(),
                       _setVolume
@@ -913,17 +913,17 @@ class _RecordpageState extends ConsumerState<Recordpage>
                         children: [
                           SizedBox(
                               // margin: const EdgeInsets.only(bottom: 15),
-                              width: size.width * 0.83,
+                              width: size.width -150,
                               height: 70,
                               child: Image.asset(
                                   fit: BoxFit.fill,
                                   'assets/images/button_box.png')),
                           Container(
-                              width: size.width * 0.83,
+                              width: size.width -150,
                               height: 70,
                               alignment: Alignment.center,
                               child: SizedBox(
-                                  width: size.width * 0.83 - 30,
+                              width: size.width -180,
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -942,7 +942,7 @@ class _RecordpageState extends ConsumerState<Recordpage>
                                               }
                                             });
                                           }),
-                                      Expanded(child: Container()),
+                                      Expanded(child: Container(color: Colors.green)),
                                       CupertinoButton(
                                           padding: EdgeInsets.all(0),
                                           child: Image.asset(
