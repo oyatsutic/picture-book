@@ -121,13 +121,18 @@ class _ReadpageState extends ConsumerState<Readpage> {
       );
     }
 
-    return PopScope(
-        canPop: false,
-        onPopInvoked: (bool didPop) {
-          if (!didPop) {}
-        },
-        child: SafeArea(
-            child: Scaffold(
+    return 
+    
+    // PopScope(
+    //     canPop: false,
+    //     onPopInvoked: (bool didPop) {
+    //       if (!didPop) {}
+    //     },
+    //     child: SafeArea(
+    //         child: 
+            
+            
+            Scaffold(
                 body: Stack(
           children: [
             AnimatedOpacity(
@@ -243,7 +248,7 @@ class _ReadpageState extends ConsumerState<Readpage> {
                 // ),
                 // )
 
-                )));
+                );
   }
 
   void _showExitDialog(BuildContext context) {
@@ -292,7 +297,7 @@ class _ReadpageState extends ConsumerState<Readpage> {
                     children: [
                       SizedBox(
                           height: 35,
-                          width: size.width * 0.3,
+                          width: 190,
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
@@ -322,7 +327,7 @@ class _ReadpageState extends ConsumerState<Readpage> {
                               ))),
                       const SizedBox(height: 10),
                       SizedBox(
-                          width: size.width * 0.3,
+                          width: 190,
                           height: 35,
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
