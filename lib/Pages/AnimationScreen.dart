@@ -111,7 +111,8 @@ class _AnimationScreenState extends State<AnimationScreen> {
             child: AnimatedOpacity(
               opacity: _backgroundOpacity,
               duration: const Duration(milliseconds: 1000),
-              child: Image.asset('assets/images/background.jpg'),
+              child: Image.asset(
+                  fit: BoxFit.cover, 'assets/images/background.jpg'),
             ),
           ),
         ],

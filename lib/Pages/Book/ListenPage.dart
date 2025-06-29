@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:pdfx/pdfx.dart';
 import 'package:picturebook/Pages/HomePage.dart';
+import 'package:picturebook/Screens/BookScreen.dart';
 import 'package:picturebook/Services/config.dart';
 
 class Listenpage extends ConsumerStatefulWidget {
@@ -108,6 +109,134 @@ class _ListenpageState extends ConsumerState<Listenpage> {
     // _videoController.dispose();
 
     super.dispose();
+  }
+
+  void _showExitDialog(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: "Exit Dialog",
+      transitionDuration: const Duration(milliseconds: 400),
+      pageBuilder: (context, anim1, anim2) {
+        return Align(
+          alignment: Alignment.center,
+          child: Material(
+            color: Colors.transparent,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeOut,
+              padding: EdgeInsets.only(bottom: 24),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 255, 249, 186),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 20,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
+              ),
+              height: size.width * 0.3,
+              width: size.width * 0.6,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 10),
+                  const Text(
+                    'どこに行きたいですか?',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      SizedBox(
+                          height: 35,
+                          width: size.width * 0.3,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 247, 147, 29),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomePage(),
+                                  ),
+                                );
+                              },
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.logout, color: Colors.white),
+                                  SizedBox(width: 5),
+                                  Text('ライブラリーへ',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16)),
+                                ],
+                              ))),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                          width: size.width * 0.3,
+                          height: 35,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 0, 174, 239),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          BookScreen(book: widget.book)),
+                                );
+                              },
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.bookmark, color: Colors.white),
+                                  SizedBox(width: 5),
+                                  Text('はじめに戻る',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16)),
+                                ],
+                              ))),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+      transitionBuilder: (context, anim1, anim2, child) {
+        return SlideTransition(
+          position: Tween(
+            begin: const Offset(0, 1),
+            end: Offset.zero,
+          ).animate(anim1),
+          child: FadeTransition(
+            opacity: anim1,
+            child: child,
+          ),
+        );
+      },
+    );
   }
 
   Future<void> logOutConfirmationDialogue(BuildContext context) async {
@@ -361,6 +490,10 @@ class _ListenpageState extends ConsumerState<Listenpage> {
                                             }
                                           });
                                         }),
+                                    Expanded(
+                                        child: Container(
+                                      color: Colors.blue,
+                                    )),
                                     CupertinoButton(
                                         padding: EdgeInsets.all(0),
                                         child: Image.asset(
@@ -368,6 +501,10 @@ class _ListenpageState extends ConsumerState<Listenpage> {
                                           width: 50,
                                         ),
                                         onPressed: () {}),
+                                    Expanded(
+                                        child: Container(
+                                      color: Colors.blue,
+                                    )),
                                     CupertinoButton(
                                         padding: EdgeInsets.all(0),
                                         child: Image.asset(

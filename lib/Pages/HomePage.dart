@@ -52,12 +52,16 @@ class _HomePageState extends ConsumerState<HomePage>
     // Start animation
     _animationController.forward();
 
-    // Fetch books in parallel
-    Future.microtask(() async {
-      await ref.read(booksProvider.notifier).fetchBooks();
-      final books = ref.read(booksProvider);
-      final userEmail = '';
-      // await Download().downloadBookAssets(books, userEmail);
+    // Fetch books safely
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (mounted) {
+        await ref.read(booksProvider.notifier).fetchBooks();
+        if (mounted) {
+          final books = ref.read(booksProvider);
+          final userEmail = '';
+          // await Download().downloadBookAssets(books, userEmail);
+        }
+      }
     });
   }
 
@@ -93,7 +97,7 @@ class _HomePageState extends ConsumerState<HomePage>
               opacity: _fadeAnimation,
               child: Center(
                 child: books.isEmpty
-                    ? const Center(child: CircularProgressIndicator())
+                    ? const Center(child: Text('絵本はありません'))
                     : SlideTransition(
                         position: _slideAnimation,
                         child: SizedBox(
@@ -123,7 +127,7 @@ class _HomePageState extends ConsumerState<HomePage>
                                       parent: _animationController,
                                       curve: Interval(
                                         delay,
-                                        delay + 0.5,
+                                        (delay + 0.5).clamp(0.0, 1.0),
                                         curve: Curves.easeOut,
                                       ),
                                     ),

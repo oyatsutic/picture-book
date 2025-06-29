@@ -6,9 +6,9 @@ class NextbuttonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 70,
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 0),
       child: Image.asset(
+        height: 70,
         fit: BoxFit.fitWidth,
         'assets/images/next_button.png',
       ),
