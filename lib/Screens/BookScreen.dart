@@ -117,13 +117,22 @@ class _BookScreenState extends ConsumerState<BookScreen> {
       );
     }
 
-    return PopScope(
-        canPop: false,
-        onPopInvoked: (bool didPop) {
-          if (!didPop) {}
-        },
-        child: SafeArea(
-            child: Scaffold(
+    return
+    
+    //  PopScope(
+    //     canPop: false,
+    //     onPopInvoked: (bool didPop) {
+    //       if (!didPop) {}
+    //     },
+    //     child: 
+        
+        
+        // SafeArea(
+        //     child: 
+            
+            
+            
+            Scaffold(
                 body: Stack(
           children: [
             PdfViewPinch(
@@ -212,6 +221,6 @@ class _BookScreenState extends ConsumerState<BookScreen> {
               ),
             )
           ],
-        ))));
+        ));
   }
 }

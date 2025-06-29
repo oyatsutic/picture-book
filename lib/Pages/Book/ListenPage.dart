@@ -305,13 +305,17 @@ class _ListenpageState extends ConsumerState<Listenpage> {
       );
     }
 
-    return PopScope(
-        canPop: false,
-        onPopInvoked: (bool didPop) {
-          if (!didPop) {}
-        },
-        child: SafeArea(
-            child: Scaffold(
+    return 
+    
+    // PopScope(
+    //     canPop: false,
+    //     onPopInvoked: (bool didPop) {
+    //       if (!didPop) {}
+    //     },
+    //     child: SafeArea(
+    //         child: 
+            
+            Scaffold(
                 body: Stack(
           children: [
             AnimatedOpacity(
@@ -565,6 +569,6 @@ class _ListenpageState extends ConsumerState<Listenpage> {
                 // ),
                 // )
 
-                )));
+                );
   }
 }

@@ -315,7 +315,7 @@ class _RecordpageState extends ConsumerState<Recordpage>
                     children: [
                       SizedBox(
                           height: 35,
-                          width: size.width * 0.3,
+                          width:190,
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
@@ -345,7 +345,7 @@ class _RecordpageState extends ConsumerState<Recordpage>
                               ))),
                       const SizedBox(height: 10),
                       SizedBox(
-                          width: size.width * 0.3,
+                          width:190,
                           height: 35,
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
@@ -722,13 +722,21 @@ class _RecordpageState extends ConsumerState<Recordpage>
       );
     }
 
-    return PopScope(
-        canPop: false,
-        onPopInvoked: (bool didPop) {
-          if (!didPop) {}
-        },
-        child: SafeArea(
-            child: Scaffold(
+    return 
+    
+    // PopScope(
+    //     canPop: false,
+    //     onPopInvoked: (bool didPop) {
+    //       if (!didPop) {}
+    //     },
+    //     child: 
+        
+        
+        // SafeArea(
+        //     child: 
+            
+            
+            Scaffold(
                 body: Stack(
           children: [
             AnimatedOpacity(
@@ -1114,7 +1122,7 @@ class _RecordpageState extends ConsumerState<Recordpage>
                 // ),
                 // )
 
-                )));
+                );
   }
 }
 
