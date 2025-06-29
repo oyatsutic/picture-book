@@ -961,7 +961,9 @@ class _RecordpageState extends ConsumerState<Recordpage>
                                                 alignment: Alignment.center,
                                                 children: [
                                                   Image.asset(
-                                                      width: size.width * 0.18,
+                                                      width: size.width *
+                                                          0.83 *
+                                                          0.2,
                                                       height:
                                                           size.height * 0.07,
                                                       fit: BoxFit.fill,
