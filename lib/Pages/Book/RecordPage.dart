@@ -859,7 +859,7 @@ class _RecordpageState extends ConsumerState<Recordpage>
                     children: [
                       !_setVolume
                           ? SizedBox(
-                              width: size.width * 0.15 / 2 - 5,
+                              width: size.width * 0.075,
                               child: CupertinoButton(
                                   padding: const EdgeInsets.only(bottom: 15),
                                   onPressed: () {
@@ -869,7 +869,7 @@ class _RecordpageState extends ConsumerState<Recordpage>
                                   },
                                   child: Image.asset(
                                     'assets/images/volume_button.png',
-                                    width: size.width * 0.15 / 2 - 5,
+                                    width: size.width * 0.075,
                                   )))
                           : Container(),
                       _setVolume
@@ -890,7 +890,7 @@ class _RecordpageState extends ConsumerState<Recordpage>
                                 });
                               },
                               child: SizedBox(
-                                width: size.width * 0.15 / 2 - 5,
+                                width: size.width * 0.075,
                                 child: Stack(
                                   alignment: Alignment.center,
                                   children: [
@@ -912,7 +912,6 @@ class _RecordpageState extends ConsumerState<Recordpage>
                       Stack(
                         children: [
                           SizedBox(
-                              // margin: const EdgeInsets.only(bottom: 15),
                               width: size.width * 0.83,
                               height: 70,
                               child: Image.asset(
@@ -1070,37 +1069,7 @@ class _RecordpageState extends ConsumerState<Recordpage>
                                   ))),
                         ],
                       ),
-                      CupertinoButton(
-                        onPressed: () {},
-                        child: Text(''),
-                      )
                     ]),
-
-                // CupertinoButton(
-                //   onPressed: () {
-                //     setState(() {
-                //       if (currentPage > 1) {
-                //         pdfControllerPinch.previousPage(
-                //             duration: const Duration(milliseconds: 500),
-                //             curve: Curves.easeInOut);
-                //       }
-                //     });
-                //   },
-                //   child: const PreviousbuttonWidget(),
-                // ),
-                // CupertinoButton(
-                //   onPressed: () {
-                //     setState(() {
-                //       if (currentPage < totalPage) {
-                //         pdfControllerPinch.nextPage(
-                //             duration: const Duration(milliseconds: 500),
-                //             curve: Curves.easeInOut);
-                //       }
-
-                //     });
-                //   },
-                //   child: const NextbuttonWidget(),
-                // )
               ),
             )
           ],
